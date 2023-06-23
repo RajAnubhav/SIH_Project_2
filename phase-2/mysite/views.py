@@ -14,7 +14,7 @@ import Content_based_recomendation as ml
 
 now = datetime.now() # current date and time
 date_time = now.strftime("%d/%m/%Y, %H:%M:%S")
-m = sql.connect(host='localhost', user='root', passwd='', database='jobship')
+m = sql.connect(host='localhost', user='root', passwd='Anubhav@12345', database='jobship')
 
 def delete_post_job(request):
       
