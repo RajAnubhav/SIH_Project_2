@@ -1,5 +1,5 @@
 from ast import arg
-from asyncio.windows_events import NULL
+# from asyncio.windows_events import NULL
 from statistics import multimode
 from wsgiref.util import request_uri
 from click import password_option
@@ -14,9 +14,10 @@ import Content_based_recomendation as ml
 
 now = datetime.now() # current date and time
 date_time = now.strftime("%d/%m/%Y, %H:%M:%S")
+m = sql.connect(host='localhost', user='root', passwd='', database='jobship')
 
 def delete_post_job(request):
-    m = sql.connect(host='localhost', user='root', passwd='', database='JobShip')
+      
     cursor = m.cursor()
 
     d = request.POST
@@ -32,7 +33,7 @@ def delete_post_job(request):
 def posted_job(request):
     
     args={}
-    m = sql.connect(host='localhost', user='root',passwd='', database='JobShip')
+    
     cursor = m.cursor()
     jai=request.session.get('domain')    
     # c3 = """select * from pinned_job where job_applicant_id=23 """.format(request.session.get('job_applicant_id'))
@@ -68,7 +69,6 @@ def posted_job(request):
     return render(request,'posted_job.html',args)
 
 def post_job(request):
-    m = sql.connect(host='localhost', user='root',passwd='', database='JobShip')
     cursor = m.cursor()
     d = request.POST
     for key, value in d.items():
@@ -103,8 +103,7 @@ def post_job(request):
 
 
 def delete_pinned_job(request):
-    m = sql.connect(host='localhost', user='root',
-                        passwd='', database='JobShip')
+   
     cursor = m.cursor()
 
     d = request.POST
@@ -129,7 +128,6 @@ def delete_pinned_job(request):
 
 def pinned_job(request):
     args={}
-    m = sql.connect(host='localhost', user='root',passwd='', database='JobShip')
     cursor = m.cursor()
     jai=request.session.get('job_applicant_id')    
     # c3 = """select * from pinned_job where job_applicant_id=23 """.format(request.session.get('job_applicant_id'))
@@ -177,7 +175,6 @@ def pinned_job(request):
     
     
     if request.method=="POST":
-        m = sql.connect(host='localhost', user='root',passwd='', database='JobShip')
         cursor = m.cursor()
         d = request.POST
         for key, value in d.items():
@@ -200,8 +197,7 @@ def pinned_job(request):
 def index(request):
     return render(request, 'index.html')
 def home(request):
-    m = sql.connect(host='localhost', user='root',
-                        passwd='', database='JobShip')
+   
     cursor = m.cursor()
 
     d = request.POST
@@ -290,8 +286,7 @@ def login(request):
     pwd = ''
 
     if request.method == "POST":
-        m = sql.connect(host='localhost', user='root',
-                        passwd='', database='JobShip')
+        
         cursor = m.cursor()
 
         d = request.POST
@@ -345,8 +340,7 @@ def login_company(request):
     pwd = ''
     gargs={'name':request.session.get('name')}
     if request.method == "POST":
-        m = sql.connect(host='localhost', user='root',
-                        passwd='', database='JobShip')
+      
         cursor = m.cursor()
 
         d = request.POST
@@ -401,7 +395,6 @@ def company(request):
    
     # args = {'name': request.session.get('name'),'email':request.session.get('email')}
     def comp_info(id):
-        m = sql.connect(host='localhost', user='root',passwd='', database='JobShip')
         cursor = m.cursor()
         q = """select name, location, email, domain, phone, summary,type_of_company , est_year ,about ,linkedin ,language_worked_with ,collab_tools ,opsys ,plateform_worked_with,honor_or_reward ,honor_or_reward_desc from comp_profile where email='{}'""".format(id)
         cursor.execute(q)
@@ -429,7 +422,6 @@ def company(request):
    
             
     if request.method=="POST":
-        m = sql.connect(host='localhost', user='root',passwd='', database='JobShip')
         cursor = m.cursor()
         d = request.POST
         for key, value in d.items():
@@ -520,7 +512,7 @@ def test(request):
     id=request.session.get('email')
 
     def company_info(id):
-        m = sql.connect(host='localhost', user='root',passwd='', database='JobShip')
+        m = sql.connect(host='localhost', user='root',passwd='', database='jobship')
         cursor = m.cursor()
         q = "select name,place,email,website,phone,summary,experience,college,degree,timePeriod,certificate_name,certificate_desc,database_worked_with,language_worked_with,collab_tools,opsys,plateform_worked_with,honor_or_reward,honor_or_reward_desc from stud_profile where email='{}'".format(id)
         cursor.execute(q)
@@ -553,7 +545,6 @@ def signup_company(request):
     #  and request.session.get['set']!='yes'
     if request.method == "POST":
         
-        m = sql.connect(host='localhost', user='root',passwd='', database='jobship')
         cursor = m.cursor()
         d = request.POST
         for key, value in d.items():
@@ -630,7 +621,6 @@ def signup(request):
     #  and request.session.get['set']!='yes'
     if request.method == "POST":
         
-        m = sql.connect(host='localhost', user='root',passwd='', database='jobship')
         cursor = m.cursor()
         d = request.POST
         for key, value in d.items():
@@ -703,7 +693,6 @@ def user(request):
 
     # args = {'name': request.session.get('name'),'email':request.session.get('email')}
     def user_info(id):
-        m = sql.connect(host='localhost', user='root',passwd='', database='JobShip')
         cursor = m.cursor()
         q = "select name,place,email,website,phone,summary,experience,college,degree,timePeriod,certificate_name,certificate_desc,database_worked_with,language_worked_with,collab_tools,opsys,plateform_worked_with,honor_or_reward,honor_or_reward_desc from stud_profile where email='{}'".format(id)
         cursor.execute(q)
@@ -718,7 +707,6 @@ def user(request):
         return kwargs
     # get request
     def recommended():
-        m = sql.connect(host='localhost', user='root',passwd='', database='JobShip')
         cursor = m.cursor()
         # this is for printing recommendation
         if not  request.session.get('iscompany'):
@@ -762,7 +750,6 @@ def user(request):
   
             
     if request.method=="POST":
-        m = sql.connect(host='localhost', user='root',passwd='', database='JobShip')
         cursor = m.cursor()
         d = request.POST
         for key, value in d.items():
@@ -869,7 +856,7 @@ def logout(request):
     return redirect('/')    
 
 
-def test(request):
+
     
     if request.method=="POST":
         m = sql.connect(host='localhost', user='root',passwd='', database='test')
@@ -917,7 +904,6 @@ def generate_view(request, *args, **kwargs):
     template= get_template('user.html')
 
     # fetching data from data-base
-    m = sql.connect(host='localhost', user='root',passwd='', database='jobship')
     cursor = m.cursor()
     myList=[]
     args={'length':len(myList)}
